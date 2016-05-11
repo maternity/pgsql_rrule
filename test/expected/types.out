@@ -1,0 +1,127 @@
+BEGIN;
+-- rrule_weekday
+SELECT rrule_weekday('SU'), rrule_weekday(0), dow('SU'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ SU            | SU            |   0
+(1 row)
+
+SELECT rrule_weekday('MO'), rrule_weekday(1), dow('MO'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ MO            | MO            |   1
+(1 row)
+
+SELECT rrule_weekday('TU'), rrule_weekday(2), dow('TU'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ TU            | TU            |   2
+(1 row)
+
+SELECT rrule_weekday('WE'), rrule_weekday(3), dow('WE'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ WE            | WE            |   3
+(1 row)
+
+SELECT rrule_weekday('TH'), rrule_weekday(4), dow('TH'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ TH            | TH            |   4
+(1 row)
+
+SELECT rrule_weekday('FR'), rrule_weekday(5), dow('FR'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ FR            | FR            |   5
+(1 row)
+
+SELECT rrule_weekday('SA'), rrule_weekday(6), dow('SA'::rrule_weekday);
+ rrule_weekday | rrule_weekday | dow 
+---------------+---------------+-----
+ SA            | SA            |   6
+(1 row)
+
+-- sortable
+SELECT * FROM unnest('{TU,TH,SA,SU,MO,WE,FR}'::rrule_weekday[]) ORDER BY 1;
+ unnest 
+--------
+ SU
+ MO
+ TU
+ WE
+ TH
+ FR
+ SA
+(7 rows)
+
+-- rrule_weekdaynum
+SELECT * FROM rrule_weekdaynum('TU');
+ week | day 
+------+-----
+      | TU
+(1 row)
+
+SELECT * FROM rrule_weekdaynum('2TU');
+ week | day 
+------+-----
+    2 | TU
+(1 row)
+
+SELECT * FROM rrule_weekdaynum('-2TU');
+ week | day 
+------+-----
+   -2 | TU
+(1 row)
+
+-- rrule_freq
+SELECT * FROM rrule_freq('SECONDLY');
+ rrule_freq 
+------------
+ SECONDLY
+(1 row)
+
+SELECT * FROM rrule_freq('MINUTELY');
+ rrule_freq 
+------------
+ MINUTELY
+(1 row)
+
+SELECT * FROM rrule_freq('HOURLY');
+ rrule_freq 
+------------
+ HOURLY
+(1 row)
+
+SELECT * FROM rrule_freq('DAILY');
+ rrule_freq 
+------------
+ DAILY
+(1 row)
+
+SELECT * FROM rrule_freq('WEEKLY');
+ rrule_freq 
+------------
+ WEEKLY
+(1 row)
+
+SELECT * FROM rrule_freq('MONTHLY');
+ rrule_freq 
+------------
+ MONTHLY
+(1 row)
+
+SELECT * FROM rrule_freq('YEARLY');
+ rrule_freq 
+------------
+ YEARLY
+(1 row)
+
+-- rrule
+SELECT * FROM rrule('FREQ=WEEKLY;BYDAY=MO,WE,FR');
+  freq  | until | count | interval | bysecond | byminute | byhour |           byday           | bymonthday | byyearday | byweekno | bymonth | bysetpos | wkst 
+--------+-------+-------+----------+----------+----------+--------+---------------------------+------------+-----------+----------+---------+----------+------
+ WEEKLY |       |       |          |          |          |        | {"(,MO)","(,WE)","(,FR)"} |            |           |          |         |          | 
+(1 row)
+
+ROLLBACK;

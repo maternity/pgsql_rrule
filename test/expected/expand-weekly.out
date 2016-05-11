@@ -1,0 +1,96 @@
+BEGIN;
+-- Weekly for 10 occurrences:
+--
+--  ==> (1997 9:00 AM EDT) September 2,9,16,23,30;October 7,14,21
+--      (1997 9:00 AM EST) October 28;November 4
+SELECT * FROM rrule_expand(
+    rrule('FREQ=WEEKLY;COUNT=10'),
+    timestamp '19970902T090000',
+    timestamp '19970902T090000'+interval '10y');
+        occurrence        
+--------------------------
+ Tue Sep 02 09:09:09 1997
+ Tue Sep 09 09:09:09 1997
+ Tue Sep 16 09:09:09 1997
+ Tue Sep 23 09:09:09 1997
+ Tue Sep 30 09:09:09 1997
+ Tue Oct 07 09:09:09 1997
+ Tue Oct 14 09:09:09 1997
+ Tue Oct 21 09:09:09 1997
+ Tue Oct 28 09:09:09 1997
+ Tue Nov 04 09:09:09 1997
+(10 rows)
+
+-- Weekly until December 24, 1997:
+--
+--  ==> (1997 9:00 AM EDT) September 2,9,16,23,30;
+--                         October 7,14,21
+--      (1997 9:00 AM EST) October 28;
+--                         November 4,11,18,25;
+--                         December 2,9,16,23
+SELECT rrule_expand(
+    rrule('FREQ=WEEKLY;UNTIL=19971224T000000Z'),
+    timestamp '19970902T090000',
+    timestamp '19970902T090000'+interval '10y');
+       rrule_expand       
+--------------------------
+ Tue Sep 02 09:09:09 1997
+ Tue Sep 09 09:09:09 1997
+ Tue Sep 16 09:09:09 1997
+ Tue Sep 23 09:09:09 1997
+ Tue Sep 30 09:09:09 1997
+ Tue Oct 07 09:09:09 1997
+ Tue Oct 14 09:09:09 1997
+ Tue Oct 21 09:09:09 1997
+ Tue Oct 28 09:09:09 1997
+ Tue Nov 04 09:09:09 1997
+ Tue Nov 11 09:09:09 1997
+ Tue Nov 18 09:09:09 1997
+ Tue Nov 25 09:09:09 1997
+ Tue Dec 02 09:09:09 1997
+ Tue Dec 09 09:09:09 1997
+ Tue Dec 16 09:09:09 1997
+ Tue Dec 23 09:09:09 1997
+(17 rows)
+
+-- Weekly on Tuesday and Thursday for five weeks:
+--
+--  ==> (1997 9:00 AM EDT) September 2,4,9,11,16,18,23,25,30;
+--                         October 2
+SELECT rrule_expand(
+    rrule('FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH'),
+    timestamp '19970902T090000',
+    timestamp '19970902T090000'+interval '10y');
+       rrule_expand       
+--------------------------
+ Tue Sep 02 09:09:09 1997
+ Thu Sep 04 09:09:09 1997
+ Tue Sep 09 09:09:09 1997
+ Thu Sep 11 09:09:09 1997
+ Tue Sep 16 09:09:09 1997
+ Thu Sep 18 09:09:09 1997
+ Tue Sep 23 09:09:09 1997
+ Thu Sep 25 09:09:09 1997
+ Tue Sep 30 09:09:09 1997
+ Thu Oct 02 09:09:09 1997
+(10 rows)
+
+SELECT rrule_expand(
+    rrule('FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH'),
+    timestamp '19970902T090000',
+    timestamp '19970902T090000'+interval '10y');
+       rrule_expand       
+--------------------------
+ Tue Sep 02 09:09:09 1997
+ Thu Sep 04 09:09:09 1997
+ Tue Sep 09 09:09:09 1997
+ Thu Sep 11 09:09:09 1997
+ Tue Sep 16 09:09:09 1997
+ Thu Sep 18 09:09:09 1997
+ Tue Sep 23 09:09:09 1997
+ Thu Sep 25 09:09:09 1997
+ Tue Sep 30 09:09:09 1997
+ Thu Oct 02 09:09:09 1997
+(10 rows)
+
+ROLLBACK;
