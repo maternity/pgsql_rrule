@@ -480,3 +480,39 @@ CREATE FUNCTION get_occurrences(raw text, dtstart timestamp, until timestamp)
 -- Compatibility with pg_rrule
 SELECT array_agg(occurrence) FROM rrule_expand(rrule(raw), dtstart, until);
 $$;
+
+CREATE FUNCTION get_freq(raw text)
+    RETURNS text
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+VALUES((rrule(raw)).freq::text);
+$$;
+
+CREATE FUNCTION get_count(raw text)
+    RETURNS integer
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+VALUES((rrule(raw)).count);
+$$;
+
+CREATE FUNCTION get_interval(raw text)
+    RETURNS integer
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+VALUES((rrule(raw)).interval);
+$$;
+
+CREATE FUNCTION get_until(raw text)
+    RETURNS text
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+VALUES((rrule(raw)).until);
+$$;
