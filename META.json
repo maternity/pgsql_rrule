@@ -1,13 +1,13 @@
 {
     "name": "pgsql_rrule",
-    "abstract": "A short description",
-    "description": "A long description",
+    "abstract": "RRULE expansion in SQL",
+    "description": "RRULE expansion in SQL ...",
     "version": "0.0.1",
-    "maintainer": "The maintainer's name",
+    "maintainer": "Kai Groner <kai@gronr.com>",
     "license": "postgresql",
     "provides": {
         "pgsql_rrule": {
-            "abstract": "A short description",
+            "abstract": "RRULE expansion in SQL",
             "file": "sql/pgsql_rrule.sql",
             "docfile": "doc/pgsql_rrule.md",
             "version": "0.0.1"
@@ -15,8 +15,7 @@
     },
     "release_status": "unstable",
 
-    "generated_by": "The maintainer's name",
-
+    "generated_by": "Kai Groner <kai@gronr.com>",
 
     "meta-spec": {
         "version": "1.0.0",

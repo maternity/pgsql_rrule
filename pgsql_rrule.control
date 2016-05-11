@@ -1,4 +1,4 @@
 # pgsql_rrule extension
-comment = 'A short description'
+comment = 'RRULE expansion in SQL'
 default_version = '0.0.1'
 relocatable = true
