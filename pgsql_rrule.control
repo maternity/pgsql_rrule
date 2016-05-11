@@ -1,0 +1,4 @@
+# pgsql_rrule extension
+comment = 'A short description'
+default_version = '0.0.1'
+relocatable = true
