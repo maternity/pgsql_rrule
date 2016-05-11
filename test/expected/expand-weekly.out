@@ -1,4 +1,6 @@
 BEGIN;
+-- Examples from RFC5545 with FREQ=WEEKLY and INTERVAL=1
+--
 -- Weekly for 10 occurrences:
 --
 --  ==> (1997 9:00 AM EDT) September 2,9,16,23,30;October 7,14,21
