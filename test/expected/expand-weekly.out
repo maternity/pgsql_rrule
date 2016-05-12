@@ -11,16 +11,16 @@ SELECT * FROM rrule_expand(
     timestamp '19970902T090000'+interval '10y');
         occurrence        
 --------------------------
- Tue Sep 02 09:09:09 1997
- Tue Sep 09 09:09:09 1997
- Tue Sep 16 09:09:09 1997
- Tue Sep 23 09:09:09 1997
- Tue Sep 30 09:09:09 1997
- Tue Oct 07 09:09:09 1997
- Tue Oct 14 09:09:09 1997
- Tue Oct 21 09:09:09 1997
- Tue Oct 28 09:09:09 1997
- Tue Nov 04 09:09:09 1997
+ Tue Sep 02 09:00:00 1997
+ Tue Sep 09 09:00:00 1997
+ Tue Sep 16 09:00:00 1997
+ Tue Sep 23 09:00:00 1997
+ Tue Sep 30 09:00:00 1997
+ Tue Oct 07 09:00:00 1997
+ Tue Oct 14 09:00:00 1997
+ Tue Oct 21 09:00:00 1997
+ Tue Oct 28 09:00:00 1997
+ Tue Nov 04 09:00:00 1997
 (10 rows)
 
 -- Weekly until December 24, 1997:
@@ -36,23 +36,23 @@ SELECT rrule_expand(
     timestamp '19970902T090000'+interval '10y');
        rrule_expand       
 --------------------------
- Tue Sep 02 09:09:09 1997
- Tue Sep 09 09:09:09 1997
- Tue Sep 16 09:09:09 1997
- Tue Sep 23 09:09:09 1997
- Tue Sep 30 09:09:09 1997
- Tue Oct 07 09:09:09 1997
- Tue Oct 14 09:09:09 1997
- Tue Oct 21 09:09:09 1997
- Tue Oct 28 09:09:09 1997
- Tue Nov 04 09:09:09 1997
- Tue Nov 11 09:09:09 1997
- Tue Nov 18 09:09:09 1997
- Tue Nov 25 09:09:09 1997
- Tue Dec 02 09:09:09 1997
- Tue Dec 09 09:09:09 1997
- Tue Dec 16 09:09:09 1997
- Tue Dec 23 09:09:09 1997
+ Tue Sep 02 09:00:00 1997
+ Tue Sep 09 09:00:00 1997
+ Tue Sep 16 09:00:00 1997
+ Tue Sep 23 09:00:00 1997
+ Tue Sep 30 09:00:00 1997
+ Tue Oct 07 09:00:00 1997
+ Tue Oct 14 09:00:00 1997
+ Tue Oct 21 09:00:00 1997
+ Tue Oct 28 09:00:00 1997
+ Tue Nov 04 09:00:00 1997
+ Tue Nov 11 09:00:00 1997
+ Tue Nov 18 09:00:00 1997
+ Tue Nov 25 09:00:00 1997
+ Tue Dec 02 09:00:00 1997
+ Tue Dec 09 09:00:00 1997
+ Tue Dec 16 09:00:00 1997
+ Tue Dec 23 09:00:00 1997
 (17 rows)
 
 -- Weekly on Tuesday and Thursday for five weeks:
@@ -65,16 +65,16 @@ SELECT rrule_expand(
     timestamp '19970902T090000'+interval '10y');
        rrule_expand       
 --------------------------
- Tue Sep 02 09:09:09 1997
- Thu Sep 04 09:09:09 1997
- Tue Sep 09 09:09:09 1997
- Thu Sep 11 09:09:09 1997
- Tue Sep 16 09:09:09 1997
- Thu Sep 18 09:09:09 1997
- Tue Sep 23 09:09:09 1997
- Thu Sep 25 09:09:09 1997
- Tue Sep 30 09:09:09 1997
- Thu Oct 02 09:09:09 1997
+ Tue Sep 02 09:00:00 1997
+ Thu Sep 04 09:00:00 1997
+ Tue Sep 09 09:00:00 1997
+ Thu Sep 11 09:00:00 1997
+ Tue Sep 16 09:00:00 1997
+ Thu Sep 18 09:00:00 1997
+ Tue Sep 23 09:00:00 1997
+ Thu Sep 25 09:00:00 1997
+ Tue Sep 30 09:00:00 1997
+ Thu Oct 02 09:00:00 1997
 (10 rows)
 
 SELECT rrule_expand(
@@ -83,16 +83,16 @@ SELECT rrule_expand(
     timestamp '19970902T090000'+interval '10y');
        rrule_expand       
 --------------------------
- Tue Sep 02 09:09:09 1997
- Thu Sep 04 09:09:09 1997
- Tue Sep 09 09:09:09 1997
- Thu Sep 11 09:09:09 1997
- Tue Sep 16 09:09:09 1997
- Thu Sep 18 09:09:09 1997
- Tue Sep 23 09:09:09 1997
- Thu Sep 25 09:09:09 1997
- Tue Sep 30 09:09:09 1997
- Thu Oct 02 09:09:09 1997
+ Tue Sep 02 09:00:00 1997
+ Thu Sep 04 09:00:00 1997
+ Tue Sep 09 09:00:00 1997
+ Thu Sep 11 09:00:00 1997
+ Tue Sep 16 09:00:00 1997
+ Thu Sep 18 09:00:00 1997
+ Tue Sep 23 09:00:00 1997
+ Thu Sep 25 09:00:00 1997
+ Tue Sep 30 09:00:00 1997
+ Thu Oct 02 09:00:00 1997
 (10 rows)
 
 ROLLBACK;

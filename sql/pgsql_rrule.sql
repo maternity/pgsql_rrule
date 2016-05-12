@@ -425,10 +425,10 @@ BEGIN
         rule.byday = COALESCE(rule.byday, array[
             (NULL,rrule_weekday(extract(dow from dtstart)::integer))::rrule_weekdaynum]);
         rule.byhour = COALESCE(rule.byhour, array[extract(hour from dtstart)]);
-        rule.byminute = COALESCE(rule.byhour,
-            array[extract(hour from dtstart)]);
-        rule.bysecond = COALESCE(rule.byhour,
-            array[extract(hour from dtstart)]);
+        rule.byminute = COALESCE(rule.byminute,
+            array[extract(minute from dtstart)]);
+        rule.bysecond = COALESCE(rule.bysecond,
+            array[extract(second from dtstart)]);
 
         RETURN QUERY
             SELECT ts FROM (
