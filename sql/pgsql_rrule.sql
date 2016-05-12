@@ -304,6 +304,12 @@ BEGIN
 END;
 $_$;
 
+CREATE FUNCTION rrules(raw text[]) RETURNS rrule[]
+    LANGUAGE SQL IMMUTABLE
+    AS $_$
+SELECT array_agg(rrule(rrule)) FROM unnest(raw) rrule(rrule);
+$_$;
+
 
 CREATE FUNCTION rrule_expand(rule rrule, dtstart date, until date) RETURNS TABLE(occurrence date)
     LANGUAGE plpgsql IMMUTABLE
@@ -479,6 +485,24 @@ CREATE FUNCTION get_occurrences(raw text, dtstart timestamp, until timestamp)
     AS $$
 -- Compatibility with pg_rrule
 SELECT array_agg(occurrence) FROM rrule_expand(rrule(raw), dtstart, until);
+$$;
+
+CREATE FUNCTION get_occurrences(rrule rrule, dtstart date, until date)
+    RETURNS date[]
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+SELECT array_agg(occurrence) FROM rrule_expand(rrule, dtstart, until);
+$$;
+
+CREATE FUNCTION get_occurrences(rrule rrule, dtstart timestamp, until timestamp)
+    RETURNS timestamp[]
+    LANGUAGE SQL
+    IMMUTABLE
+    AS $$
+-- Compatibility with pg_rrule
+SELECT array_agg(occurrence) FROM rrule_expand(rrule, dtstart, until);
 $$;
 
 CREATE FUNCTION get_freq(raw text)

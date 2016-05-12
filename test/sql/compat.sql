@@ -6,4 +6,6 @@ SELECT get_until('FREQ=WEEKLY;UNTIL=19970805');
 SELECT get_interval('FREQ=WEEKLY;INTERVAL=4');
 SELECT get_occurrences('FREQ=WEEKLY;BYDAY=SA,SU', date '19970805', date '19970905');
 
+SELECT get_occurrences(rrule('FREQ=WEEKLY;BYDAY=SA,SU'), date '19970805', date '19970905');
+
 ROLLBACK;

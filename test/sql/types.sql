@@ -28,6 +28,8 @@ SELECT * FROM rrule_freq('YEARLY');
 
 -- rrule
 SELECT * FROM rrule('FREQ=WEEKLY;BYDAY=MO,WE,FR');
-
+SELECT * FROM unnest(rrules(ARRAY[
+        'FREQ=WEEKLY;BYDAY=MO,WE,FR',
+        'FREQ=WEEKLY;BYDAY=TU,TH']));
 
 ROLLBACK;

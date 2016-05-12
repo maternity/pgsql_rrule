@@ -124,4 +124,13 @@ SELECT * FROM rrule('FREQ=WEEKLY;BYDAY=MO,WE,FR');
  WEEKLY |       |       |          |          |          |        | {"(,MO)","(,WE)","(,FR)"} |            |           |          |         |          | 
 (1 row)
 
+SELECT * FROM unnest(rrules(ARRAY[
+        'FREQ=WEEKLY;BYDAY=MO,WE,FR',
+        'FREQ=WEEKLY;BYDAY=TU,TH']));
+  freq  | until | count | interval | bysecond | byminute | byhour |           byday           | bymonthday | byyearday | byweekno | bymonth | bysetpos | wkst 
+--------+-------+-------+----------+----------+----------+--------+---------------------------+------------+-----------+----------+---------+----------+------
+ WEEKLY |       |       |          |          |          |        | {"(,MO)","(,WE)","(,FR)"} |            |           |          |         |          | 
+ WEEKLY |       |       |          |          |          |        | {"(,TU)","(,TH)"}         |            |           |          |         |          | 
+(2 rows)
+
 ROLLBACK;
