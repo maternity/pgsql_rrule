@@ -402,7 +402,9 @@ BEGIN
 --                special expand for MONTHLY if BYMONTH present; otherwise,
 --                special expand for YEARLY.
 
-    until = LEAST(until, rule.until::timestamp);
+    -- Strip fractional seconds from arguments
+    dtstart = date_trunc('second', dtstart);
+    until = date_trunc('second', LEAST(until, rule.until::timestamp));
     wksti = dow(wkst);
     IF extract(dow from dtstart) < wksti THEN
         wksti = wksti-7;
