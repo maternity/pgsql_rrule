@@ -459,7 +459,9 @@ BEGIN
 
             WHERE
                 (rule.bymonth IS NULL OR extract(month from ts) = ANY(rule.bymonth)) AND
-                ts <@ tsrange(dtstart, until)
+                -- NOTE: tsrange defaults to exclusion of the upper bound, so
+                -- specify that the range is inclusive.
+                ts <@ tsrange(dtstart, until, '[]')
                 -- TODO: BYSETPOS filter
 
             LIMIT rule.count;
