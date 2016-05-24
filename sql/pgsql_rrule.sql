@@ -463,8 +463,11 @@ BEGIN
 
             WHERE
                 (rule.bymonth IS NULL OR extract(month from ts) = ANY(rule.bymonth)) AND
-                -- NOTE: tsrange defaults to exclusion of the upper bound, so
-                -- specify that the range is inclusive.
+                -- From the second paragraph of page 41 of RFC-5545:
+                --     The UNTIL rule part defines a DATE or DATE-TIME value
+                --     that bounds the recurrence rule in an inclusive manner.
+                -- However, tsrange defaults to exclusion of the upper bound,
+                -- so specify that the range is inclusive.
                 ts <@ tsrange(dtstart, until, '[]')
                 -- TODO: BYSETPOS filter
 
