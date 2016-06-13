@@ -402,6 +402,12 @@ BEGIN
 --                special expand for MONTHLY if BYMONTH present; otherwise,
 --                special expand for YEARLY.
 
+    IF dtstart != date_trunc('second', dtstart) THEN
+        -- Fractional seconds on dtstart can cause strange results (e.g.
+        -- omission of the first occurrence), and RFC-5545 doesn't allow them,
+        -- so the caller must provide an integer for dtstart's seconds.
+        RAISE EXCEPTION 'Invalid seconds for dtstart: not an integer';
+    END IF;
     until = LEAST(until, rule.until::timestamp);
     wksti = dow(wkst);
     IF extract(dow from dtstart) < wksti THEN
@@ -457,7 +463,10 @@ BEGIN
 
             WHERE
                 (rule.bymonth IS NULL OR extract(month from ts) = ANY(rule.bymonth)) AND
-                ts <@ tsrange(dtstart, until)
+                -- From the second paragraph of page 41 of RFC-5545:
+                --     The UNTIL rule part defines a DATE or DATE-TIME value
+                --     that bounds the recurrence rule in an inclusive manner.
+                ts <@ tsrange(dtstart, until, '[]')
                 -- TODO: BYSETPOS filter
 
             LIMIT rule.count;

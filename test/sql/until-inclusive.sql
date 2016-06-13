@@ -1,0 +1,10 @@
+BEGIN;
+SET LOCAL datestyle to ISO, MDY;
+
+-- The until date/timestamp should be included if it matches the rrule
+SELECT * FROM rrule_expand(
+    rrule('FREQ=WEEKLY;COUNT=2'),
+    timestamp '2015-01-01 00:00:00',
+    timestamp '2015-01-08 00:00:00');
+
+ROLLBACK;
