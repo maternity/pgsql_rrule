@@ -402,18 +402,19 @@ BEGIN
 --                special expand for MONTHLY if BYMONTH present; otherwise,
 --                special expand for YEARLY.
 
-    IF dtstart > until THEN
-        RETURN;
-    END IF;
-
     IF dtstart != date_trunc('second', dtstart) THEN
         -- Fractional seconds on dtstart can cause strange results (e.g.
         -- omission of the first occurrence), and RFC-5545 doesn't allow them,
         -- so the caller must provide an integer for dtstart's seconds.
         RAISE EXCEPTION 'Invalid seconds for dtstart: not an integer';
     END IF;
+
     until = LEAST(until, rule.until::timestamp);
     wksti = dow(wkst);
+    IF dtstart > until THEN
+        RETURN;
+    END IF;
+
     IF extract(dow from dtstart) < wksti THEN
         wksti = wksti-7;
     END IF;
