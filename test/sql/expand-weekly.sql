@@ -36,4 +36,12 @@ SELECT rrule_expand(
     timestamp '19970902T090000',
     timestamp '19970902T090000'+interval '10y');
 
+-- End of RFC5545 examples.
+--
+-- Expansion when dtstart > until produces no rules, without error.
+SELECT rrule_expand(
+    rrule('FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH'),
+    timestamp '19980902T090000',
+    timestamp '19980902T090000'+interval '10y');
+
 ROLLBACK;
