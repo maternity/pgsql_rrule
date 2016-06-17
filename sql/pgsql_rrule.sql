@@ -332,7 +332,6 @@ CREATE FUNCTION rrule_expand(rule rrule, dtstart timestamp without time zone, un
     AS $$
 DECLARE
     n integer = 0;
-    wkst rrule_weekday = COALESCE(rule.wkst, 'MO');
     wksti integer;
 BEGIN
 -- From https://tools.ietf.org/html/rfc5545#section-3.3.10
@@ -410,11 +409,12 @@ BEGIN
     END IF;
 
     until = LEAST(until, rule.until::timestamp);
-    wksti = dow(wkst);
     IF dtstart > until THEN
         RETURN;
     END IF;
 
+    rule = rrule_defaults(rule, dtstart);
+    wksti = dow(rule.wkst);
     IF extract(dow from dtstart) < wksti THEN
         wksti = wksti-7;
     END IF;
@@ -431,15 +431,6 @@ BEGIN
             -- WKST issues
             RAISE EXCEPTION 'Expansion of WEEKLY rrules with INTERVAL > 1 is not implemented.';
         END IF;
-
-        rule.interval = COALESCE(rule.interval, 1);
-        rule.byday = COALESCE(rule.byday, array[
-            (NULL,rrule_weekday(extract(dow from dtstart)::integer))::rrule_weekdaynum]);
-        rule.byhour = COALESCE(rule.byhour, array[extract(hour from dtstart)]);
-        rule.byminute = COALESCE(rule.byminute,
-            array[extract(minute from dtstart)]);
-        rule.bysecond = COALESCE(rule.bysecond,
-            array[extract(second from dtstart)]);
 
         RETURN QUERY
             SELECT ts FROM (
@@ -479,6 +470,60 @@ BEGIN
     ELSE
         RAISE EXCEPTION 'Expansion of % rrules is not implemented.', rule.freq;
     END CASE;
+END;
+$$;
+
+
+CREATE FUNCTION rrule_defaults(rule rrule, dtstart timestamp)
+    RETURNS rrule
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+BEGIN
+    CASE rule.freq
+    WHEN 'WEEKLY' THEN
+        rule.wkst = COALESCE(rule.wkst, 'MO');
+        rule.interval = COALESCE(rule.interval, 1);
+        rule.byday = COALESCE(rule.byday, array[
+            (NULL,rrule_weekday(extract(dow from dtstart)::integer))::rrule_weekdaynum]);
+        rule.byhour = COALESCE(rule.byhour, array[extract(hour from dtstart)]);
+        rule.byminute = COALESCE(rule.byminute,
+            array[extract(minute from dtstart)]);
+        rule.bysecond = COALESCE(rule.bysecond,
+            array[extract(second from dtstart)]);
+
+    ELSE
+        RAISE EXCEPTION 'Support for % rrules is not implemented.', rule.freq;
+    END CASE;
+
+    RETURN rule;
+END;
+$$;
+
+
+CREATE FUNCTION rrule_weekly_intervals(rule rrule, dtstart timestamp)
+    RETURNS SETOF interval
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+DECLARE
+BEGIN
+    IF rule.freq != 'WEEKLY' THEN
+        RAISE EXCEPTION 'Cannot derive weekly intervals from a FREQ=% rule.', rule.freq;
+    END IF;
+
+    rule = rrule_defaults(rule, dtstart);
+    RETURN QUERY
+        SELECT
+            (dow(day)*INTERVAL '1d' +
+            hour*INTERVAL '1h' +
+            minute*INTERVAL '1m' +
+            second*INTERVAL '1s')
+
+        FROM
+            (SELECT day FROM unnest(rule.byday)) day(day),
+            unnest(rule.byhour) hour,
+            unnest(rule.byminute) minute,
+            unnest(rule.bysecond) second;
 END;
 $$;
 

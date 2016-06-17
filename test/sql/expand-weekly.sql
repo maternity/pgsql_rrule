@@ -44,4 +44,8 @@ SELECT rrule_expand(
     timestamp '19980902T090000',
     timestamp '19980902T090000'+interval '10y');
 
+SELECT to_char(date_trunc('week', current_date)-interval '1d'+rrule_weekly_intervals(
+    rrule('FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH'),
+    timestamp '19980902T090000'), 'Dy HH24:MI');
+
 ROLLBACK;
