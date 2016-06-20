@@ -2,7 +2,7 @@
     "name": "pgsql_rrule",
     "abstract": "RRULE expansion in SQL",
     "description": "RRULE expansion in SQL ...",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "maintainer": "Kai Groner <kai@gronr.com>",
     "license": "postgresql",
     "provides": {
@@ -10,7 +10,7 @@
             "abstract": "RRULE expansion in SQL",
             "file": "sql/pgsql_rrule.sql",
             "docfile": "doc/pgsql_rrule.md",
-            "version": "0.0.3"
+            "version": "0.0.4"
         }
     },
     "release_status": "unstable",
