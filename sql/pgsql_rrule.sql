@@ -507,6 +507,8 @@ CREATE FUNCTION rrule_weekly_intervals(rule rrule, dtstart timestamp)
     AS $$
 DECLARE
 BEGIN
+    -- Generates values between 0 and interval '1week'.
+
     IF rule.freq != 'WEEKLY' THEN
         RAISE EXCEPTION 'Cannot derive weekly intervals from a FREQ=% rule.', rule.freq;
     END IF;
